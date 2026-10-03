@@ -1,0 +1,67 @@
+-- Repeatable tables
+CREATE TABLE portfolio_items (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    category VARCHAR(50) NOT NULL,      -- 'residential' / 'commercial'
+    year INT NOT NULL,
+    image_url TEXT NOT NULL,
+    display_order INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE testimonials (
+    id SERIAL PRIMARY KEY,
+    client_name VARCHAR(100) NOT NULL,
+    role_location VARCHAR(150),
+    project_type VARCHAR(100),          -- 'Residential · 2024'
+    quote TEXT NOT NULL,
+    image_url TEXT NOT NULL,
+    display_order INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE services (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    display_order INT DEFAULT 0
+);
+
+-- Singleton tables (only ever 1 row each)
+CREATE TABLE hero_content (
+    id INT PRIMARY KEY DEFAULT 1,
+    headline VARCHAR(200),
+    subheadline TEXT,
+    video_url TEXT,
+    years_count VARCHAR(10),
+    projects_count VARCHAR(10),
+    satisfaction_pct VARCHAR(10),
+    CONSTRAINT single_row CHECK (id = 1)
+);
+
+CREATE TABLE about_content (
+    id INT PRIMARY KEY DEFAULT 1,
+    image_url TEXT,
+    paragraph_1 TEXT,
+    paragraph_2 TEXT,
+    badge_number VARCHAR(10),
+    CONSTRAINT single_row CHECK (id = 1)
+);
+
+CREATE TABLE site_settings (
+    id INT PRIMARY KEY DEFAULT 1,
+    booking_url TEXT,
+    footer_tagline TEXT,
+    instagram_url TEXT,
+    pinterest_url TEXT,
+    linkedin_url TEXT,
+    CONSTRAINT single_row CHECK (id = 1)
+);
+
+-- Admin auth
+CREATE TABLE admin_users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
